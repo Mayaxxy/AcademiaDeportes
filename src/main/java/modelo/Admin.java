@@ -1,5 +1,6 @@
 package modelo;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,20 +30,28 @@ public class Admin {
     public String getId() {
         return identificacion;
     }
-    public Miembro addMiembro(String nombre, String id, String email) {
-        Miembro miembro = new Miembro(nombre, id, email);
+    public Miembro addMiembro(Miembro miembro) {
         if (!miembros.contains(miembro)) {
             miembros.add(miembro);
             return miembro;
         }
         return null; // Miembro ya existe
     }
-    public void printMiembros() {
-        System.out.println("Lista de miembros:");
-        for (Miembro miembro : miembros) {
-            System.out.println(miembro.getNombre() + " - " + miembro.getId() + " - " + miembro.getEmail());
+    public Sesion addSesion(Sesion sesion) {
+        if (!sesiones.contains(sesion)) {
+            sesiones.add(sesion);
+            return sesion;
         }
+        return null; // Sesion ya existe
     }
+    public Sesion addSesionEntrenador(Sesion sesion, List<Sesion> sesiones) {
+        if (!sesiones.contains(sesion)) {
+            sesiones.add(sesion);
+            return sesion;
+        }
+        return null; // Sesion ya existe
+    }
+
     public void printEntrenadores() {
         System.out.println("Lista de entrenadores:");
         for (Entrenador entrenador : entrenadores) {
@@ -60,11 +69,13 @@ public class Admin {
         System.out.println("No se encontró miembro con ID " + id);
         return false;
     }
-    public Miembro editarMiembro(String id, String newNombre, String newEmail) {
+    public Miembro editarMiembro(String id, String newNombre, String newEmail, String newId, Categoria newCategoria) {
         Miembro miembro = encontrarMiembro(id);
         if (miembro != null) {
             miembro.setNombre(newNombre);
             miembro.setEmail(newEmail);
+            miembro.setId(newId);
+            miembro.setCategoria(newCategoria);
             return miembro;
         }
         return null;
@@ -89,12 +100,14 @@ public class Admin {
         System.out.println("No se encontró miembro con ID " + id);
         return false;
     }
-    public Entrenador addEntrenador(String nombre, String id, String especialidad) {
-        Entrenador entrenador = new Entrenador(nombre, id, especialidad);
-        this.entrenadores.add(entrenador);
-        return entrenador;
+    public Entrenador addEntrenador(Entrenador entrenador) {
+        if (!entrenadores.contains(entrenador)) {
+            entrenadores.add(entrenador);
+            return entrenador;
+        }
+        return null; // Miembro ya existe
     }
-
+//encontrar un miembro por id
     public Miembro encontrarMiembro(String id) {
         for (Miembro miembro : miembros) {
             if (miembro.getId().equals(id)) {
@@ -103,6 +116,7 @@ public class Admin {
         }
         return null;
     }
+    //encuentra un entrenador por id
     public Entrenador encontrarEntrenador(String id) {
         for (Entrenador entrenador : entrenadores) {
             if (entrenador.getId().equals(id)) {
@@ -111,16 +125,25 @@ public class Admin {
         }
         return null;
     }
+    //encuentra un deporte por nombre
     public Deporte encontrarDeporte(String nombre) {
         for (Deporte deporte : deportes) {
-            if (deporte.getNombre().equals(nombre)) {
+            if (deporte.getNombre().equalsIgnoreCase(nombre)) {
                 return deporte;
             }
         }
         return null;
     }
-    public Deporte addDeporte(String nombre, String descripcion, Dificultad dificultad) {
-        Deporte deporte = new Deporte(nombre, descripcion, dificultad);
+    //encuentra una sesion por duracion
+    public Sesion encontrarSesion(int duracion) {
+        for (Sesion sesion : sesiones) {
+            if (sesion.getDuracion() ==(duracion)) {
+                return sesion;
+            }
+        }
+        return null;
+    }
+    public Deporte addDeporte(Deporte deporte) {
         this.deportes.add(deporte);
         return deporte;
     }
@@ -134,6 +157,48 @@ public class Admin {
             return deporte;
         }
         return null;
+    }
+    public Sesion editarSesion(int duracion, int newDuracion, LocalDate newFecha, Deporte newDeporte, Entrenador newEntrenador) {
+        Sesion sesion = encontrarSesion(duracion);
+        if (sesion != null) {
+            sesion.setDuracion(newDuracion);
+            sesion.setFecha(newFecha);
+            sesion.setDeporte(newDeporte);
+            sesion.setEntrenador(newEntrenador);
+            return sesion;
+        }
+        return null;
+    }
+    public boolean removerSesion(Sesion sesion) {
+        for (Sesion sesion1 : sesiones) {
+            if (sesion1.equals(sesion)) {
+                sesiones.remove(sesion);
+                System.out.println("Sesion eliminada correctamente");
+                return true;
+            }
+        }
+        System.out.println("No se encontró sesion");
+        return false;
+    }
+    public boolean removerDeporte(String nombre) {
+        for (Deporte deporte : deportes) {
+            if (deporte.getNombre().equalsIgnoreCase(nombre)) {
+                deportes.remove(deporte);
+                System.out.println("Deporte " + deporte.getNombre() + "" + nombre + " eliminado correctamente");
+                return true;
+            }
+        }
+        System.out.println("No se encontró deporte " + nombre);
+        return false;
+    }
+    public List<Deporte> getDeportes() {
+        return deportes;
+    }
+    public List<Entrenador> getEntrenadores() {
+        return entrenadores;
+    }
+    public List<Sesion> getSesiones() {
+        return sesiones;
     }
 
 

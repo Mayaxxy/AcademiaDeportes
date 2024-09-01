@@ -1,19 +1,15 @@
 package modelo;
-
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
-import java.util.Date;
 
 public class Sesion {
     private int duracion;
     private String estado;
-    private ChronoLocalDate fecha;
+    private LocalDate fecha;
     private Deporte deporte;
     private Entrenador entrenador;
 
-    public Sesion(ChronoLocalDate fecha, int duracion, Deporte deporte, Entrenador entrenador) {
+    public Sesion(int duracion, LocalDate fecha, Deporte deporte, Entrenador entrenador) {
         this.fecha = fecha;
         this.duracion = duracion;
         this.estado = "Programada"; // Inicialmente, una sesión está programada
@@ -34,15 +30,11 @@ public class Sesion {
         return estado;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
     public ChronoLocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(ChronoLocalDate fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
@@ -66,22 +58,14 @@ public class Sesion {
     public void establecerEstado() {
         LocalDate fechaActual = LocalDate.now();
         if (fechaActual.isAfter(fecha) || fechaActual.isEqual(fecha)) {
-            estado = "Programado";
+            estado = "Completada";
         } else {
-            estado = "Completado";
+            estado = "Programada";
         }
     }
-    // validacion de un solo deporte
-    public void validarDeporte(Deporte deporte) {
-        if (this.deporte == null) {
-            this.deporte = deporte;
-        }
+    @Override
+    public String toString() {
+        return fecha.toString() +" "+ deporte ;
     }
-    // validacion de un unico entrenador
-    public void validarEntrenador(Entrenador entrenador) {
-        if (this.entrenador == null) {
-            this.entrenador = entrenador;
 
-        }
-    }
 }

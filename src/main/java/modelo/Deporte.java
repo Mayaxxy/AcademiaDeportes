@@ -1,5 +1,5 @@
 package modelo;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class Deporte {
@@ -12,25 +12,35 @@ public class Deporte {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.nivelDificultad = dificultad;
+        this.entrenadores = new ArrayList<>();
     }
 
     public String getNombre() {
         return nombre;
-        }
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-        public void setNombre(String nombre) {
-            this.nombre = nombre;
-        }
+    public String getDescripcion() {
+        return descripcion;
+    }
+    public Dificultad getNivelDificultad() {
+        return nivelDificultad;
+    }
 
-        public String getDescripcion() {
-            return descripcion;
-        }
-
-        public void setDescripcion(String descripcion) {
-            this.descripcion = descripcion;
-        }
-        public void setNivelDificultad(Dificultad nivelDificultad) {
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    public void setNivelDificultad(Dificultad nivelDificultad) {
         this.nivelDificultad = nivelDificultad;
     }
 
+    public List<Entrenador> getEntrenadores() {
+        return entrenadores;
+    }
+    @Override
+    public String toString() {
+        return nombre ;
+    }
 }

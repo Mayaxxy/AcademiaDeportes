@@ -35,4 +35,15 @@ public class Entrenador {
     public void setEspecialidad(String especialidad) {
         this.especialidad = especialidad;
     }
+    //Metodo para comprobaciones en la terminal
+    public void printSesiones() {
+        System.out.println("Lista de sesiones:");
+        for (Sesion sesion : sesiones) {
+            System.out.println(sesion.getFecha() + " - " + sesion.getEntrenador() + " - " + sesion.getDeporte());
+        }
+    }
+    @Override
+    public String toString() {
+        return nombre + " "  + especialidad;
+    }
 }
